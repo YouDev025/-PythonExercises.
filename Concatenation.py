@@ -1,0 +1,6 @@
+_name=input("enter your name :")
+_age=input("enter your age :")
+_height=input("enter your height :")
+_weight=input("enter your weight :")
+print(f"Your name is {_name} and your age is {_age} years old", end=" ")
+print(f"and Your height is {_height} meters and your weight is {_weight} kilograms")
