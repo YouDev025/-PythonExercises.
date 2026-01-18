@@ -12,7 +12,7 @@ while continuer:
     print("------------------------------------------")
 
     reponse = input("Voulez-vous inverser un autre nombre ? (oui/non) : ")
-    if reponse.lower() != "oui":
+    if reponse.lower() == "non" or reponse.lower() == "n":
         continuer = False
 
 print("Merci d'avoir utilisé le programme !")
