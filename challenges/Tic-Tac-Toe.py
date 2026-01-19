@@ -17,7 +17,7 @@ while not joueur2.strip():
     joueur2 = input("Erreur : Veuillez entrer un nom valide : ")
 
 print("=" * 50)
-print(f"⚔️  {joueur1} (X) VS {joueur2} (O)")
+print(f"⚔  {joueur1} (X) VS {joueur2} (O)")
 print("=" * 50)
 
 # Scores
