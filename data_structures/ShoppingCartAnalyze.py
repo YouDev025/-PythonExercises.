@@ -65,34 +65,38 @@ while stop_programme:
         print(f"TOTAL initial : {total:.2f} MAD")
         print("-"*60)
 
-        # Produits premium (>100 MAD)
-        print("Produits premium (prix > 100 MAD) :")
-        produits_chers = [p for p, prix in panier.items() if prix > 100]
-        if produits_chers:
-            for p in produits_chers:
-                print(f"- {p} : {panier[p]:.2f} MAD")
-        else:
-            print("Aucun produit cher !")
-
-        # Produit le plus cher
-        produit_max = max(panier, key=panier.get)
-        prix_max = panier[produit_max]
-        print(f"Produit le plus cher : {produit_max} ({prix_max:.2f} MAD)")
-        print("="*50)
+        # Si le total est inférieur à 500, proposer d’ajouter d’autres produits
+        while total < 500:
+            montant_restant = 500 - total
+            print(f"⚠️ Votre total est de {total:.2f} MAD.")
+            print(f"Ajoutez encore {montant_restant:.2f} MAD pour bénéficier de 10% de réduction.")
+            choix = input("Voulez-vous ajouter d'autres produits ? [oui/non] : ").lower()
+            if choix in ["non", "n"]:
+                break
+            # Afficher à nouveau les produits disponibles
+            print("Produits disponibles :")
+            for produit, prix in produits_disponibles.items():
+                print(f"- {produit:<15} : {prix:8.2f} MAD")
+            produit_choisi = input("Entrez le nom du produit à ajouter : ").strip()
+            if produit_choisi in produits_disponibles:
+                panier[produit_choisi] = produits_disponibles[produit_choisi]
+                total = sum(panier.values())
+                print(f"{produit_choisi} ajouté au panier ✅")
+            else:
+                print("Produit non disponible ❌")
 
         # Réduction si total > 500
+        print("="*50)
         print("RÉDUCTION DE PRIX !")
         print("-"*50)
-        if total > 500:
+        if total >= 500:
             reduction = total * 0.10
             total_final = total - reduction
-            print("Félicitations ! Vous bénéficiez de 10% de réduction 🎉")
+            print("🎉 Félicitations ! Vous bénéficiez de 10% de réduction !")
             print(f"Montant de la réduction : -{reduction:.2f} MAD")
             print(f"Total après réduction : {total_final:.2f} MAD")
         else:
             total_final = total
-            montant_restant = 500 - total
-            print(f"Ajoutez encore {montant_restant:.2f} MAD pour bénéficier de 10% de réduction.")
             print(f"Total à payer : {total_final:.2f} MAD")
 
         # Statistiques
@@ -101,7 +105,7 @@ while stop_programme:
         print("-"*50)
         print(f"- Nombre d'articles : {len(panier)}")
         print(f"- Total initial : {total:.2f} MAD")
-        if total > 500:
+        if total >= 500:
             print(f"- Réduction 10% : -{reduction:.2f} MAD")
         print(f"- TOTAL à payer : {total_final:.2f} MAD")
         print("="*50)
@@ -112,4 +116,4 @@ while stop_programme:
         stop_programme = False
 
 print("="*50)
-print("Merci pour votre visite ! Au revoir !")
+print("FIN DE PROGRAMME !")
