@@ -1,19 +1,17 @@
-print("-"*50)
-print("Vowel Counter ")
-print("-"*50)
+print("=== Vowel Counter ===\n")
 
-#Get input from user
-text = input("Enter a text to count vowels : ")
+# Get input from user
+text = input("Enter a text to count vowels: ")
+
+# Initialize vowel counts
 vowels = 'aeiouAEIOU'
-
-#initialization vowel counts
 a_count = 0
 e_count = 0
 i_count = 0
 o_count = 0
 u_count = 0
 
-#Count each vowel
+# Count each vowel
 for char in text:
     if char in vowels:
         if char.lower() == 'a':
@@ -27,17 +25,16 @@ for char in text:
         elif char.lower() == 'u':
             u_count += 1
 
-#calculate total
+# Calculate total
 total = a_count + e_count + i_count + o_count + u_count
 
-#Display results
-print(f"Result : {text}")
-print("-"*50)
-print("A : ",a_count)
-print("E : ",e_count)
-print("I : ",i_count)
-print("O : ",o_count)
-print("U : ",u_count)
-print("-"*50)
-print("Total vowels: ",total)
-print("-"*50)
+# Display results
+print(f"\nResults for: '{text}'")
+print("-" * 40)
+print(f"A: {a_count}")
+print(f"E: {e_count}")
+print(f"I: {i_count}")
+print(f"O: {o_count}")
+print(f"U: {u_count}")
+print("-" * 40)
+print(f"Total vowels: {total}")
