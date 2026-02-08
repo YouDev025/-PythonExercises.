@@ -53,17 +53,27 @@ class UnitConverter(ABC):
         except (ValueError, TypeError):
             raise ValueError("Value must be a valid number")
 
+        # Validate units are not empty
+        if not source_unit or not source_unit.strip():
+            raise ValueError("Source unit cannot be empty")
+
+        if not target_unit or not target_unit.strip():
+            raise ValueError("Target unit cannot be empty")
+
         # Validate units are supported
         supported = self.get_supported_units()
 
-        if source_unit.lower() not in [u.lower() for u in supported]:
+        source_clean = source_unit.strip().lower()
+        target_clean = target_unit.strip().lower()
+
+        if source_clean not in [u.lower() for u in supported]:
             raise ValueError(f"Source unit '{source_unit}' is not supported")
 
-        if target_unit.lower() not in [u.lower() for u in supported]:
+        if target_clean not in [u.lower() for u in supported]:
             raise ValueError(f"Target unit '{target_unit}' is not supported")
 
-        self._source_unit = source_unit.lower()
-        self._target_unit = target_unit.lower()
+        self._source_unit = source_clean
+        self._target_unit = target_clean
 
     def get_result(self):
         """
@@ -401,10 +411,18 @@ class ConversionApp:
                 print("[ERROR] Please enter a valid number.")
 
         # Get source unit
-        source_unit = input("Enter the source unit: ").strip()
+        while True:
+            source_unit = input("Enter the source unit: ").strip()
+            if source_unit:
+                break
+            print("[ERROR] Source unit cannot be empty. Please try again.")
 
         # Get target unit
-        target_unit = input("Enter the target unit: ").strip()
+        while True:
+            target_unit = input("Enter the target unit: ").strip()
+            if target_unit:
+                break
+            print("[ERROR] Target unit cannot be empty. Please try again.")
 
         return value, source_unit, target_unit
 
