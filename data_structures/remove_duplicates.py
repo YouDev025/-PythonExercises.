@@ -1,22 +1,39 @@
 # remove_duplicates.py
-# A beginner-friendly program to remove duplicates from a list
-# without using the set() function.
+# Program that removes duplicates using two methods:
+# 1. Loops and conditionals (preserves order)
+# 2. Using set() (fast but order not guaranteed)
 
-# Step 1: Ask the user to enter items separated by spaces
+# Step 1: Ask the user to enter items
 user_input = input("Enter a list of numbers or words separated by spaces: ")
-
-# Step 2: Split the input string into a list
 original_list = user_input.split()
 
-# Step 3: Create an empty list to store unique elements
-unique_list = []
+# Step 2: Ask the user which method to use
+print("\nChoose a method to remove duplicates:")
+print("1 - Loops and conditionals (preserves order)")
+print("2 - Using set() (fast but order may change)")
+choice = input("Enter 1 or 2: ")
 
-# Step 4: Loop through the original list
-for item in original_list:
-    # If the item is not already in unique_list, add it
-    if item not in unique_list:
-        unique_list.append(item)
+# Step 3: Apply the chosen method
+if choice == "1":
+    # Method 1: Loops and conditionals
+    unique_list = []
+    for item in original_list:
+        if item not in unique_list:
+            unique_list.append(item)
+    method_used = "Loops and conditionals"
+elif choice == "2":
+    # Method 2: Using set()
+    unique_list = list(set(original_list))
+    method_used = "set()"
+else:
+    print("Invalid choice. Defaulting to method 1 (loops).")
+    unique_list = []
+    for item in original_list:
+        if item not in unique_list:
+            unique_list.append(item)
+    method_used = "Loops and conditionals"
 
-# Step 5: Display the results
+# Step 4: Display results
 print("\nOriginal list:", original_list)
 print("List without duplicates:", unique_list)
+print("Method used:", method_used)
