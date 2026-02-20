@@ -1,89 +1,73 @@
-def get_number_from_user(list_number):
-    print(f"---- Enter numbers for List {list_number} ----")
-    print("Type each number and press Enter. Type 'done' when finished.")  # Fixed: removed capital D since input is lowercased
-
-    numbers = []
-    while True:
-        user_input = input("Enter a number or 'done' to finish: ").strip().lower()
-        if user_input == "done":
-            # Bug 3 Fixed: prevent empty lists from being accepted
-            if len(numbers) == 0:
-                print("You must enter at least one number before finishing.")
-                continue
-            break
-        try:
-            number = float(user_input)
-            numbers.append(number)
-            print(f"Added {number} to the list: {numbers}")  # Fixed: "Add" -> "Added"
-        except ValueError:
-            print("Error: Invalid input. Please enter a number or type 'done' to exit.")
-
-    return numbers
-
-
-def merge_lists(list1, list2):
-    merged_list = []
-    for item in list1:
-        merged_list.append(item)
-    for item in list2:
-        merged_list.append(item)
-    return merged_list
-
-
-def remove_duplicates(numbers):
-    unique_list = []
-    for number in numbers:
-        already_exist = False
-        for seen in unique_list:
-            if seen == number:
-                already_exist = True
-                break
-        if not already_exist:
-            unique_list.append(number)
-    return unique_list
-
-
-def display_lists(label, numbers):
-    formatted = [int(n) if n == int(n) else n for n in numbers]  # Fixed: typo "formated" -> "formatted"
-    print(f"\n{label} : {formatted} ({len(formatted)} items)\n")
-
-
-print("=" * 50)
-print("Welcome to the Merge Lists Program")
-print("=" * 50)
+# ============================================================
+# Student Grade Manager
+# This program collects student names and grades (/20),
+# then displays each student's pass/fail status along with
+# a summary analysis (average, highest, lowest, pass count).
+# The program loops until the user chooses to exit.
+# ============================================================
 
 while True:
-    # Bug 1 Fixed: removed input() wrapper — just pass the list number (1 or 2)
-    list1 = get_number_from_user(1)
-    list2 = get_number_from_user(2)
+    # Get a valid number of students from the user
+    try:
+        num_students = int(input("Enter number of students: "))
+        if num_students <= 0:
+            print("Number of students must be positive")
+            continue
+    except ValueError:
+        print("Please enter an integer")
+        continue
 
-    print("=" * 50)
-    print("--- Your Lists ---")
-    display_lists("List 1", list1)
-    display_lists("List 2", list2)
+    # Collect each student's name and grade
+    students = []
+    for number in range(num_students):
+        name = input(f"Enter the name of student number {number + 1}: ")
 
-    print("=" * 50)
-    print("---- Merging Lists ----")
-    merged_list = merge_lists(list1, list2)
-    display_lists("Combined List", merged_list)
+        # Keep asking until a valid grade is entered
+        while True:
+            try:
+                grade = float(input(f"Enter the grade of {name} (/20): "))
+                if grade < 0 or grade > 20:
+                    print("Grade must be between 0 and 20")
+                    continue
+                break
+            except ValueError:
+                print("Please enter a valid number")
 
-    print("Do you want to remove duplicates?")
-    choice = input("Enter choice (y/n): ").strip().lower()
+        students.append((name, grade))
 
-    if choice in ["y", "yes"]:
-        unique_list = remove_duplicates(merged_list)
-        duplicates_removed = len(merged_list) - len(unique_list)
-        print("After Removing Duplicates:")
-        display_lists("Unique List", unique_list)
-        if duplicates_removed == 0:
-            print("No duplicates found.")
-        else:
-            print(f"({duplicates_removed} duplicate(s) removed)")
-    else:
-        print("Skipping duplicate removal.")
+    # Initialize stats using the first student as the baseline
+    total = 0
+    highest_grade = students[0][1]
+    lowest_grade = students[0][1]
+    passed_count = 0
 
-    print("=" * 50)
-    again = input("Do you want to merge another pair of lists? (y/n): ").strip().lower()
-    if again not in ["y", "yes"]:
-        print("Goodbye! Thank you for using the Merge Tool.")
+    # Calculate total, highest, lowest, and pass count
+    for name, grade in students:
+        total += grade
+        if grade > highest_grade:
+            highest_grade = grade
+        if grade < lowest_grade:
+            lowest_grade = grade
+        if grade >= 10:
+            passed_count += 1
+
+    average_grade = total / num_students
+
+    # Display each student's grade and pass/fail status
+    print("----- Student Grades -----")
+    for name, grade in students:
+        status = "Passed" if grade >= 10 else "Failed"
+        print(f"{name} : {grade} -> {status}")
+
+    # Display overall stats
+    print("----- Grades Analysis -----")
+    print(f"Average grade: {average_grade:.2f}")
+    print(f"Highest grade: {highest_grade}")
+    print(f"Lowest grade: {lowest_grade}")
+    print(f"Number of students passed: {passed_count}")
+
+    # Ask the user if they want to run again
+    again = input("Do you want to continue? (y/n): ").strip().lower()
+    if again in ["non", "no", "n"]:
+        print("Exiting...")
         break
