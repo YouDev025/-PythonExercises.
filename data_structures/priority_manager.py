@@ -3,6 +3,7 @@
 # view, and complete tasks organized by priority level.
 # Tasks are sorted High → Medium → Low for easy tracking.
 # ============================================================
+
 # Priority order used for sorting tasks
 PRIORITY_ORDER = {"High": 1, "Medium": 2, "Low": 3}
 
